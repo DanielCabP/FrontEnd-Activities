@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mocha/3.2.0/mocha.js"></script>
+    <script> mocha.setup('bdd'); </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chai/3.5.0/chai.js"></script>
+    <script> let assert = chai.assert; </script>
+
+    <script>
+        let counter = 0;
+
+        function genId() {
+            return counter++;
+        }
+    </script>
+    <script>
+        class Servicio {
+            _id;
+            nombre;
+
+            constructor(nombre) {
+                this._id = genId();
+                this.nombre = nombre;
+
+            }
+
+            imprimir() {
+                console.log(`Servicio: ${this.nombre} [${this._id}]`)
+            }
+        }
+    </script>
+    <script>
+        class Persona {
+            _id;
+            nombre = 'Sin Nombre';
+            apellido = 'Ni Apellido';
+
+            constructor(nombre, apellido) {
+                this._id = genId();
+                this.nombre = nombre;
+                this.apellido = apellido;
+            }
+
+            get nombreCompleto() {
+                return this.apellido.toUpperCase() + ', ' + this.nombre;
+            }
+        }
+    </script>
+    <script>
+        class Usuario extends Persona {
+            servicios = [];
+
+            constructor(nombre, apellido) {
+                super(nombre, apellido)
+            }
+
+            isAdmin() { return false; }
+
+            agregarServicio(s) {
+                this.servicios.push(s);
+            }
+
+            eliminarServicio(_id) {
+                let id = this.servicios.findIndex(s => s._id == _id)
+                this.servicios.splice(id, 1);
+            }
+
+            modificarServicio(_id, s2) {
+                let s1 = this.servicios.find(s => s._id == _id);
+                Object.assign(s1, s2);
+            }
+
+            imprimir() {
+                console.log(`Usuario: ${this.nombreCompleto}[${this._id}] Servicios:`);
+                for (let s of this.servicios) {
+                    s.imprimir();
+                }
+            }
+        }
+    </script>
+    <script>
+        class Admin extends Usuario {
+
+            constructor(nombre, apellido) {
+                super(nombre, apellido)
+            }
+
+            isAdmin() { return true; }
+
+            imprimir() {
+                console.log("Administrador: " + this.nombreCompleto())
+            }
+        }
+    </script>
+
+</head>
+
+<body>
+
+    <script type="text/javascript" src="actividad-test.js"></script>
+    <div id="mocha"></div>
+    <script> mocha.run(); </script>
+</body>
+
+</html>

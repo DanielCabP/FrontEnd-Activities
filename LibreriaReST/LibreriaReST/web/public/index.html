@@ -1,0 +1,30 @@
+<html>
+
+<head>
+  <title>Express</title>
+  <link rel="stylesheet" href="/stylesheets/style.css">
+  <script src="javascripts/model-proxy.js"></script>
+  <script src="javascripts/libreria-presenter.js"></script>
+
+  <script>
+    let presenter;
+    function inicio() {
+      presenter = new LibreriaPresenter(new LibreriaProxy());
+      presenter.refresh();
+    }
+  </script>
+</head>
+
+  <body onload="inicio()">
+    <h1>Libros</h1>
+    <p>Bienvenidos</p>
+    <input type="text" id="titulo" placeholder="Titulo" size="40"><br>
+    <input type="text" id="autores" placeholder="Autores" size="40"><br>
+    <input type="button" onclick="presenter.guardarClick(event)" value="Guardar">
+    <input type="button" onclick="presenter.borrarClick(event)" value="Borrar"><br>
+    <h2>Libros</h2>
+    <ul id="libros">
+    </ul>
+    <div id="status">Sin actualizar</div>
+  </body>
+</html>
